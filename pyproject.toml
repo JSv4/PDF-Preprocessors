@@ -46,7 +46,7 @@ Issues = "https://github.com/unknown/pdfpreprocessor/issues"
 Source = "https://github.com/unknown/pdfpreprocessor"
 
 [tool.hatch.version]
-path = "__about__.py"
+path = "pdfpreprocessor/__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -156,7 +156,7 @@ source_pkgs = ["pdfpreprocessor", "tests"]
 branch = true
 parallel = true
 omit = [
-  "__about__.py",
+  "pdfpreprocessor/__about__.py",
 ]
 
 [tool.coverage.paths]
