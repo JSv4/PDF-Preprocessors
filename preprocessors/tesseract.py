@@ -1,13 +1,12 @@
-from typing import List, Tuple, Dict
 import csv
 import io
+from typing import Dict, List, Tuple
 
-import pytesseract
 import pandas as pd
+import pytesseract
 from pdf2image import convert_from_path
 
 from pdfpreprocessor.shared.models import Page
-
 from pdfpreprocessor.shared.utils import get_pdf_pages_and_sizes
 
 
@@ -18,17 +17,12 @@ def calculate_image_scale_factor(pdf_size, image_size):
     return scale_w, scale_h
 
 
-def extract_page_tokens(
-    pdf_image: "PIL.Image", pdf_size=Tuple[float, float], language="eng"
-) -> List[Dict]:
-
+def extract_page_tokens(pdf_image: "PIL.Image", pdf_size=Tuple[float, float], language="eng") -> List[Dict]:
     _data = pytesseract.image_to_data(pdf_image, lang=language)
 
     scale_w, scale_h = calculate_image_scale_factor(pdf_size, pdf_image.size)
 
-    res = pd.read_csv(
-        io.StringIO(_data), quoting=csv.QUOTE_NONE, encoding="utf-8", sep="\t"
-    )
+    res = pd.read_csv(io.StringIO(_data), quoting=csv.QUOTE_NONE, encoding="utf-8", sep="\t")
 
     # An implementation adopted from https://github.com/Layout-Parser/layout-parser/blob
     # /20de8e7adb0a7d7740aed23484fa8b943126f881/src/layoutparser/ocr.py#L475
@@ -38,8 +32,7 @@ def extract_page_tokens(
         return []
 
     tokens = (
-        res_without_na_text_rows
-        .groupby(["page_num", "block_num", "par_num", "line_num", "word_num"], group_keys=False)
+        res_without_na_text_rows.groupby(["page_num", "block_num", "par_num", "line_num", "word_num"], group_keys=False)
         .apply(
             lambda gp: pd.Series(
                 [
@@ -80,21 +73,20 @@ def extract_page_tokens(
 
 
 def parse_annotations(pdf_file: str) -> List[Page]:
-
     pdf_images = convert_from_path(pdf_file)
     _, pdf_sizes = get_pdf_pages_and_sizes(pdf_file)
     pages = []
     for page_index, (pdf_image, pdf_size) in enumerate(zip(pdf_images, pdf_sizes)):
         tokens = extract_page_tokens(pdf_image, pdf_size)
         w, h = pdf_size
-        page = dict(
-            page=dict(
-                width=w,
-                height=h,
-                index=page_index,
-            ),
-            tokens=tokens,
-        )
+        page = {
+            "page": {
+                "width": w,
+                "height": h,
+                "index": page_index,
+            },
+            "tokens": tokens,
+        }
         pages.append(page)
 
     return pages

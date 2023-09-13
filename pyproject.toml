@@ -46,7 +46,7 @@ Issues = "https://github.com/unknown/pdfpreprocessor/issues"
 Source = "https://github.com/unknown/pdfpreprocessor"
 
 [tool.hatch.version]
-path = "src/__about__.py"
+path = "__about__.py"
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -76,7 +76,7 @@ dependencies = [
   "ruff>=0.0.243",
 ]
 [tool.hatch.envs.lint.scripts]
-typing = "mypy --install-types --non-interactive {args:src/pdfpreprocessor tests}"
+typing = "mypy --install-types --non-interactive {args:pdfpreprocessor tests}"
 style = [
   "ruff {args:.}",
   "black --check --diff {args:.}",
@@ -156,11 +156,11 @@ source_pkgs = ["pdfpreprocessor", "tests"]
 branch = true
 parallel = true
 omit = [
-  "src/pdfpreprocessor/__about__.py",
+  "__about__.py",
 ]
 
 [tool.coverage.paths]
-pdfpreprocessor = ["src/pdfpreprocessor", "*/pdfpreprocessor/pdfpreprocessor"]
+pdfpreprocessor = ["pdfpreprocessor",]
 tests = ["tests", "*/pdfpreprocessor/tests"]
 
 [tool.coverage.report]

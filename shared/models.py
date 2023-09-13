@@ -1,10 +1,9 @@
 from dataclasses import dataclass
-from typing import Union, Tuple, Dict, List
+from typing import Dict, List, Optional, Tuple, Union
 
 
 @dataclass
 class Box:
-
     x: float
     y: float
     width: float
@@ -20,7 +19,7 @@ class Box:
         """Returns the left, top, right, bottom coordinates of the box"""
         return (self.x, self.y, self.x + self.width, self.y + self.height)
 
-    def is_in(self, other: "Box", soft_margin: Dict = None) -> bool:
+    def is_in(self, other: "Box", soft_margin: Optional[Dict] = None) -> bool:
         """Determines whether the center of this box is contained
         inside another box with a soft margin.
 
@@ -118,6 +117,7 @@ class Block(Box):
             label=anno["label"]["text"],
         )
 
+
 @dataclass
 class PageInfo:
     width: float
@@ -169,10 +169,6 @@ class Page:
 
         self.scale((scale_x, scale_y))
 
-    def filter_tokens_by(self, box: Box, soft_margin: Dict = None) -> Dict[int, Token]:
+    def filter_tokens_by(self, box: Box, soft_margin: Optional[Dict] = None) -> Dict[int, Token]:
         """Select tokens in the Page that inside the input box"""
-        return {
-            idx: token
-            for idx, token in enumerate(self.tokens)
-            if token.is_in(box, soft_margin)
-        }
+        return {idx: token for idx, token in enumerate(self.tokens) if token.is_in(box, soft_margin)}

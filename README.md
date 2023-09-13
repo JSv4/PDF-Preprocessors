@@ -21,6 +21,14 @@ cd pdfpreprocessor
 pip install .
 ```
 
+## Development
+
+Run linter (after install dependencies): 
+
+```commandline
+hatch run lint:fmt
+```
+
 ## Usage
 
 To run the script, simply call the `process_tesseract` function, passing in the PDF file's path as an argument:
