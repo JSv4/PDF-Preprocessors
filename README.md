@@ -34,7 +34,7 @@ hatch run lint:fmt
 To run the script, simply call the `process_tesseract` function, passing in the PDF file's path as an argument:
 
 \`\`\`python
-from pdfprocessor.processor.tesseract import process_tesseract
+from preprocessors.tesseract import process_tesseract
 
 annotations = process_tesseract("path/to/your/pdf/file.pdf")
 \`\`\`

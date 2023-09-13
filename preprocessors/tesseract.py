@@ -6,8 +6,8 @@ import pandas as pd
 import pytesseract
 from pdf2image import convert_from_path
 
-from pdfpreprocessor.shared.models import Page
-from pdfpreprocessor.shared.utils import get_pdf_pages_and_sizes
+from ..shared.models import Page
+from ..shared.utils import get_pdf_pages_and_sizes
 
 
 def calculate_image_scale_factor(pdf_size, image_size):
